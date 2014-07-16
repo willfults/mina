@@ -1,7 +1,7 @@
 module Mina
-  #if windows os
+  # if windows os
   require 'rbconfig'
-  is_windows = true
+  is_windows = (RbConfig::CONFIG['host_os'] =~ /mswin|mingw|cygwin/)
   if is_windows
     module Shellwords
       def shellescape(str)
@@ -9,12 +9,13 @@ module Mina
       end
 
       module_function :shellescape
+
       class << self
         alias escape shellescape
       end
     end
   end
-
+  
   PREFIX = File.dirname(__FILE__)
   ROOT = File.expand_path('../../', __FILE__)
 
@@ -36,6 +37,4 @@ module Mina
   def self.root_path(*a)
     File.join ROOT, *a
   end
-  
-
 end
