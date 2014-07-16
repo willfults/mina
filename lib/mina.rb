@@ -1,4 +1,20 @@
 module Mina
+  #if windows os
+  require 'rbconfig'
+  is_windows = true
+  if is_windows
+    module Shellwords
+      def shellescape(str)
+          '"' + str.gsub(/\\(?=\\*\")/, "\\\\\\").gsub(/\"/, "\\\"").gsub(/\\$/, "\\\\\\").gsub("%", "%%") + '"'
+      end
+
+      module_function :shellescape
+      class << self
+        alias escape shellescape
+      end
+    end
+  end
+
   PREFIX = File.dirname(__FILE__)
   ROOT = File.expand_path('../../', __FILE__)
 
@@ -21,19 +37,5 @@ module Mina
     File.join ROOT, *a
   end
   
-  #if windows os
-  require 'rbconfig'
-  is_windows = true
-  if is_windows
-    module Shellwords
-      def shellescape(str)
-          '"' + str.gsub(/\\(?=\\*\")/, "\\\\\\").gsub(/\"/, "\\\"").gsub(/\\$/, "\\\\\\").gsub("%", "%%") + '"'
-      end
 
-      module_function :shellescape
-      class << self
-        alias escape shellescape
-      end
-    end
-  end
 end
