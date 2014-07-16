@@ -23,7 +23,7 @@ module Mina
   
   #if windows os
   require 'rbconfig'
-  is_windows = (RbConfig::CONFIG['host_os'] =~ /mswin|mingw|cygwin/) 
+  is_windows = true
   if is_windows
     module Shellwords
       def shellescape(str)
